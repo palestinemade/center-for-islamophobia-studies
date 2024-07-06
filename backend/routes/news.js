@@ -31,11 +31,9 @@ router.get('/fetch', async (req, res) => {
 
     await NewsArticle.insertMany(newsArticles);
     console.log('News articles fetched and stored successfully');
-    res.setHeader('Content-Type', 'application/json');
-    res.json({ message: 'News articles fetched and stored successfully' });
+    res.status(200).json({ message: 'News articles fetched and stored successfully' });
   } catch (error) {
     console.error('Error fetching news articles:', error);
-    res.setHeader('Content-Type', 'application/json');
     res.status(500).json({ message: 'Error fetching news articles' });
   }
 });
@@ -46,11 +44,9 @@ router.get('/', async (req, res) => {
   try {
     const articles = await NewsArticle.find();
     console.log('Articles:', articles);
-    res.setHeader('Content-Type', 'application/json');
-    res.json(articles);
+    res.status(200).json(articles);
   } catch (error) {
     console.error('Error retrieving news articles:', error);
-    res.setHeader('Content-Type', 'application/json');
     res.status(500).json({ message: 'Error retrieving news articles' });
   }
 });

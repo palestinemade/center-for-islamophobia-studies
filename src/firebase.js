@@ -1,7 +1,8 @@
 // src/firebase.js
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics'; // Keep this if using analytics
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getAuth, initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAuk_78JbDqamiw0OkWx34DfDlS9Sn9UMg",
@@ -13,33 +14,25 @@ const firebaseConfig = {
   measurementId: "G-QEHX66ZD3V"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app); // eslint-disable-line no-unused-vars
-const messaging = getMessaging(app);
+let app;
+let auth;
+let firestore;
 
-// Request permission to send notifications
-const requestPermission = async () => {
-  try {
-    await Notification.requestPermission();
-    console.log('Notification permission granted.');
-    
-    // Get the token
-    const token = await getToken(messaging, { vapidKey: 'BJd4ypeIsxpLCxwO2Z8m7eO1uGj9G9TQJvc0Bi82MJQf8TQSY8J6abE2_zwioTPDSO-QQVEFA_CqIU62rS89DBU' });
-    console.log('FCM Token:', token);
-    // Send the token to your server to subscribe the user to the topic
-  } catch (err) {
-    console.log('Unable to get permission to notify.', err);
-  }
-};
+try {
+  // Initialize Firebase
+  app = initializeApp(firebaseConfig);
 
-// Handle incoming messages
-onMessage(messaging, (payload) => {
-  console.log('Message received. ', payload);
-  // Customize notification handling here
-});
+  // Initialize Firebase Auth with AsyncStorage
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+  });
 
-// Call the request permission function
-requestPermission();
+  // Initialize Firestore
+  firestore = getFirestore(app);
+  
+  console.log('Firebase initialized successfully');
+} catch (error) {
+  console.error('Error initializing Firebase:', error);
+}
 
-export { messaging };
+export { app, auth, firestore };

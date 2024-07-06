@@ -1,37 +1,56 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Icon } from 'react-native-elements';
 import IncidentMap from './components/IncidentMap';
 import NewsFeed from './components/NewsFeed';
-import Statistics from './components/Statistics';
 import IncidentForm from './components/IncidentForm';
-import Register from './components/Register';
-import Login from './components/Login';
-import './firebase';
+import LiveStream from './components/LiveStream';
+import Statistics from './components/Statistics';
+import './firebase'; // Ensure Firebase is set up correctly for React Native
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const HomeStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Incident Map" component={IncidentMap} />
+    <Stack.Screen name="News Feed" component={NewsFeed} />
+  </Stack.Navigator>
+);
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/report">Report Incident</a></li>
-            <li><a href="/news">News Feed</a></li>
-            <li><a href="/statistics">Statistics</a></li>
-            <li><a href="/register">Register</a></li>
-            <li><a href="/login">Login</a></li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<IncidentMap />} />
-          <Route path="/report" element={<IncidentForm />} />
-          <Route path="/news" element={<NewsFeed />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </div>
-    </Router>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName;
+            if (route.name === 'Home') {
+              iconName = 'home';
+            } else if (route.name === 'Report') {
+              iconName = 'add-circle';
+            } else if (route.name === 'Go Live') {
+              iconName = 'live-tv';
+            } else if (route.name === 'Stats') {
+              iconName = 'bar-chart';
+            }
+            return <Icon name={iconName} type="material" color={color} size={size} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}
+      >
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Report" component={IncidentForm} />
+        <Tab.Screen name="Go Live" component={LiveStream} />
+        <Tab.Screen name="Stats" component={Statistics} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 

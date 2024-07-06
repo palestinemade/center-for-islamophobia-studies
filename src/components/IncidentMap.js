@@ -1,36 +1,68 @@
-// src/components/IncidentMap.js
-import React, { useEffect, useState } from 'react';
-import GoogleMapReact from 'google-map-react';
-
-const IncidentMarker = ({ text }) => <div>{text}</div>;
+import React from 'react';
+import { View, StyleSheet, TextInput } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Icon } from 'react-native-elements';
 
 const IncidentMap = () => {
-  const [incidents, setIncidents] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/incidents')
-      .then(response => response.json())
-      .then(data => setIncidents(data));
-  }, []);
-
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyBupPQCX9Zm56y45qACeU-TDIod1VAHN9E' }}
-        defaultCenter={{ lat: 59.95, lng: 30.33 }}
-        defaultZoom={11}
+    <View style={styles.container}>
+      <MapView
+        provider={PROVIDER_GOOGLE} // Use Google Maps
+        style={styles.map}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
       >
-        {incidents.map(incident => (
-          <IncidentMarker
-            key={incident._id}
-            lat={incident.location.coordinates[1]}
-            lng={incident.location.coordinates[0]}
-            text={incident.description}
-          />
-        ))}
-      </GoogleMapReact>
-    </div>
+        {/* Add Markers here */}
+      </MapView>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+        />
+        <Icon name="bell" type="font-awesome" style={styles.icon} />
+        <Icon name="user" type="font-awesome" style={styles.icon} />
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  searchContainer: {
+    position: 'absolute',
+    top: 50,
+    left: 10,
+    right: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+  },
+  icon: {
+    marginLeft: 10,
+  },
+});
 
 export default IncidentMap;

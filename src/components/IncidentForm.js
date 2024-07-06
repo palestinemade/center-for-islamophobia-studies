@@ -1,14 +1,13 @@
-// src/components/IncidentForm.js
 import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 const IncidentForm = () => {
   const [description, setDescription] = useState('');
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token'); // Assume token is stored in localStorage on login
+  const handleSubmit = async () => {
+    const token = ''; // Replace this with the actual way you get your token
     const response = await fetch('/api/incidents', {
       method: 'POST',
       headers: {
@@ -19,17 +18,58 @@ const IncidentForm = () => {
     });
     const data = await response.json();
     console.log(data);
+    Alert.alert("Incident Reported", "Your incident has been reported successfully!");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Report Incident</h1>
-      <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-      <input type="text" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
-      <input type="text" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
-      <button type="submit">Report</button>
-    </form>
+    <View style={styles.container}>
+      <Text style={styles.header}>Report Incident</Text>
+      <TextInput
+        style={styles.textInput}
+        placeholder="Description"
+        multiline
+        numberOfLines={4}
+        onChangeText={(text) => setDescription(text)}
+        value={description}
+      />
+      <TextInput
+        style={styles.textInput}
+        placeholder="Longitude"
+        keyboardType="numeric"
+        onChangeText={(text) => setLongitude(text)}
+        value={longitude}
+      />
+      <TextInput
+        style={styles.textInput}
+        placeholder="Latitude"
+        keyboardType="numeric"
+        onChangeText={(text) => setLatitude(text)}
+        value={latitude}
+      />
+      <Button title="Report" onPress={handleSubmit} />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  textInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
+});
 
 export default IncidentForm;

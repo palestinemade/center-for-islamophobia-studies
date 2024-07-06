@@ -1,5 +1,6 @@
-// src/components/NewsFeed.js
 import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import axios from 'axios';
 
 const NewsFeed = () => {
   const [articles, setArticles] = useState([]);
@@ -9,13 +10,8 @@ const NewsFeed = () => {
     const fetchNews = async () => {
       try {
         console.log('Fetching news...');
-        const response = await fetch('/api/news');
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-        const data = await response.json();
-        console.log('Fetched articles:', data); // Debug statement
-        setArticles(data);
+        const response = await axios.get('/api/news');
+        setArticles(response.data);
       } catch (error) {
         console.error('Error fetching news:', error);
         setError(error);
@@ -25,24 +21,58 @@ const NewsFeed = () => {
   }, []);
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>Error: {error.message}</Text>
+      </View>
+    );
   }
 
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => Linking.openURL(item.url)} style={styles.articleContainer}>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.description}>{item.description}</Text>
+    </TouchableOpacity>
+  );
+
   return (
-    <div>
-      <h1>News Feed</h1>
-      <ul>
-        {articles.map((article) => (
-          <li key={article._id}>
-            <a href={article.url} target="_blank" rel="noopener noreferrer">
-              {article.title}
-            </a>
-            <p>{article.description}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <View style={styles.container}>
+      <Text style={styles.header}>News Feed</Text>
+      <FlatList
+        data={articles}
+        renderItem={renderItem}
+        keyExtractor={item => item._id}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  articleContainer: {
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 14,
+    color: '#333',
+  },
+  errorText: {
+    fontSize: 18,
+    color: 'red',
+  },
+});
 
 export default NewsFeed;

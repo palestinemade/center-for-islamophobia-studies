@@ -2,11 +2,24 @@
 const mongoose = require('mongoose');
 
 const NewsArticleSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  url: String,
-  publishedAt: Date,
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+  publishedAt: {
+    type: Date,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('NewsArticle', NewsArticleSchema);
-n
+const NewsArticle = mongoose.model('NewsArticle', NewsArticleSchema);
+
+module.exports = NewsArticle;
