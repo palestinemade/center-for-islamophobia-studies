@@ -84,3 +84,5 @@ dist/
 
 # @end expo-cliios/
 android/
+ios/
+android/
