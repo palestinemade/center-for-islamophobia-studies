@@ -82,4 +82,5 @@ buck-out/
 web-build/
 dist/
 
-# @end expo-cli
+# @end expo-cliios/
+android/
