@@ -86,3 +86,6 @@ dist/
 android/
 ios/
 android/
+
+# Ignore Gradle build output directory
+build

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Center for Islamophobia Studies",
-    "slug": "center-for-islamophobia-studies",
+    "name": "Islamophobia",
+    "displayname": "islamophobia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.centerforislamophobiastudies",
+      "bundleIdentifier": "com.yourcompany.islamophobia",
       "infoPlist": {
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
@@ -26,7 +26,7 @@
       }
     },
     "android": {
-      "package": "com.yourcompany.centerforislamophobiastudies",
+      "package": "com.yourcompany.islamophobia",
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE"

@@ -53,9 +53,9 @@ const IncidentForm = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   textInput: {
-    height: 40,
     borderColor: 'gray',
-    borderWidth: 1,
     borderRadius: 5,
-    paddingHorizontal: 10,
+    borderWidth: 1,
+    height: 40,
     marginBottom: 20,
+    paddingHorizontal: 10,
   },
 });
 

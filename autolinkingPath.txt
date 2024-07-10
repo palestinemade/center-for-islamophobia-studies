@@ -1,0 +1,1 @@
+/Users/hanikharufeh/center-for-islamophobia-studies/node_modules/expo/scripts

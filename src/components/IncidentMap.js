@@ -34,34 +34,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  icon: {
+    marginLeft: 10,
+  },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
   searchContainer: {
-    position: 'absolute',
-    top: 50,
-    left: 10,
-    right: 10,
-    flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 5,
+    flexDirection: 'row',
+    left: 10,
     padding: 10,
+    position: 'absolute',
+    right: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
+    top: 50,
   },
   searchInput: {
+    borderColor: 'gray',
+    borderRadius: 5,
+    borderWidth: 1,
     flex: 1,
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
     paddingHorizontal: 10,
-  },
-  icon: {
-    marginLeft: 10,
   },
 });
 

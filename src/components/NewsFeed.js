@@ -48,30 +48,30 @@ const NewsFeed = () => {
 };
 
 const styles = StyleSheet.create({
+  articleContainer: {
+    marginBottom: 20,
+  },
   container: {
+    backgroundColor: '#fff',
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+  },
+  description: {
+    color: '#333',
+    fontSize: 14,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 18,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  articleContainer: {
-    marginBottom: 20,
-  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  description: {
-    fontSize: 14,
-    color: '#333',
-  },
-  errorText: {
-    fontSize: 18,
-    color: 'red',
   },
 });
 
